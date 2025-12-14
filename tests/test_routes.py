@@ -79,6 +79,13 @@ class TestAccountService(TestCase):
         response = self.client.get("/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_cors_headers(self):
+        """It should return CORS headers"""
+        response = self.client.get("/", environ_overrides={"HTTPS_ENVIRON": "on"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("Access-Control-Allow-Origin", response.headers)
+        self.assertEqual(response.headers.get("Access-Control-Allow-Origin"), "*")
+
     def test_health(self):
         """It should be healthy"""
         resp = self.client.get("/health")
