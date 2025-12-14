@@ -43,14 +43,8 @@ jobs:
         flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
       continue-on-error: true
     
-    - name: Run tests
+    - name: Run unit tests with Nose
+      run: nosetests
       env:
-        DATABASE_URI: postgresql://postgres:postgres@localhost:5432/postgres
-      run: |
-        nosetests -vv --with-spec --spec-color --with-coverage --cover-package=service
-    
-    - name: Generate coverage report
-      run: |
-        coverage report -m
-      continue-on-error: true
+        DATABASE_URI: "postgresql://postgres:postgres@postgres:5432/postgres"
 
